@@ -7,6 +7,8 @@ const colors : Array<String> = new Array("#3F51B5", "#4CAF50", "#f44336", "#0D47
 const backColor : String = "#BDBDBD"
 const cotainerColor : String = "#212121"
 
+const sinify = (scale) => Math.sin(scale * Math.PI)
+
 class Stage {
 
     canvas : HTMLCanvasElement = document.createElement('canvas')
@@ -39,5 +41,29 @@ class Stage {
         stage.initCanvas()
         stage.render()
         stage.handleTap()
+    }
+}
+
+class State {
+
+    scale : number = 0
+    dir : number = 0
+    prevScale : number = 0
+
+    update(cb : Function) {
+        this.scale += scGap * this.dir
+        if (Math.abs(this.scale - this.prevScale) > 1) {
+            this.scale = this.prevScale + this.dir
+            this.dir = 0
+            this.prevScale = this.scale
+            cb()
+        }
+    }
+
+    startUpdating(cb : Function) {
+        if (this.dir == 0) {
+            this.dir = 1 - 2 * this.prevScale
+            cb()
+        }
     }
 }
