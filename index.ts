@@ -189,3 +189,25 @@ class ColorBarContainer {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    animator : Animator = new Animator()
+    cbc : ColorBarContainer = new ColorBarContainer()
+
+    render(context : CanvasRenderingContext2D) {
+        this.cbc.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.cbc.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.cbc.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
