@@ -37,11 +37,12 @@ class DrawingUtil {
 
     static drawColorBarNode(context : CanvasRenderingContext2D, i : number, scale : number) {
         const size = Math.min(w, h) / containerSizeFactor
+        const barW : number = size - Math.min(w, h) / strokeFactor
         context.fillStyle = colors[i]
         const sf = sinify(scale)
         context.save()
         context.translate(w / 2, h / 2)
-        context.fillRect(-size / 2, -size * sf, size, size * sf)
+        context.fillRect(-barW / 2, -size * sf, barW, size * sf)
         context.restore()
      }
 }
