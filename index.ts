@@ -135,7 +135,7 @@ class ColorBarNode {
     }
 
     addNeighbor() {
-        if (this.i < nodes - 1) {
+        if (this.i < colors.length - 1) {
             this.next = new ColorBarNode(this.i + 1)
             this.next.prev = this
         }
@@ -163,5 +163,29 @@ class ColorBarNode {
         }
         cb()
         return this
+    }
+}
+
+class ColorBarContainer {
+
+    curr : ColorBarNode = new ColorBarNode(0)
+    dir : number = 1
+
+    draw(context : CanvasRenderingContext2D) {
+        DrawingUtil.drawContainer(context)
+        this.curr.draw(context)
+    }
+
+    update(cb : Function) {
+        this.curr.update(() => {
+            this.curr = this.curr.getNext(this.dir, () => {
+                this.dir *= -1
+            })
+            cb()
+        })
+    }
+
+    startUpdating(cb : Function) {
+        this.curr.startUpdating(cb)
     }
 }
