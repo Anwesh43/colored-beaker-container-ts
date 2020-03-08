@@ -6,6 +6,7 @@ const containerSizeFactor : number = 2.9
 const colors : Array<String> = new Array("#3F51B5", "#4CAF50", "#f44336", "#0D47A1", "#E65100")
 const backColor : String = "#BDBDBD"
 const containerColor : String = "#212121"
+const delay : number = 30
 
 const sinify = (scale) => Math.sin(scale * Math.PI)
 
@@ -100,6 +101,26 @@ class State {
         if (this.dir == 0) {
             this.dir = 1 - 2 * this.prevScale
             cb()
+        }
+    }
+}
+
+class Animator {
+
+    animated : boolean = false
+    interval : number
+
+    start(cb : Function) {
+        if (!this.animated) {
+            this.animated = true
+            this.interval = setInterval(cb, delay)
+        }
+    }
+
+    stop() {
+        if (this.animated) {
+            this.animated = false
+            clearInterval(this.interval)
         }
     }
 }
